@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<constant name="struts.devMode" value="true" />
+	<!-- form的主题 -->
+	<constant name="struts.ui.theme" value="simple"></constant>
+
+	<package name="needLogin" extends="json-default">
+		<interceptors>
+			<interceptor name="loginInterceptor" class="com.kk.bos.web.interceptor.LoginInterceptor" />
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="loginInterceptor"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<default-interceptor-ref name="loginStack"></default-interceptor-ref>
+		
+		<global-results>
+			<result name="login">/login.jsp</result>
+		</global-results>
+		
+		<action name="index">
+			<result>/index.jsp</result>
+		</action>
+		<!-- 需要进行权限控制的页面访问 -->
+		<action name="page_*_*">
+			<result>/WEB-INF/pages/{1}/{2}.jsp</result>
+		</action>
+		
+		<action name="user_*" class="userAction" method="{1}">
+			<result name="editSuccess" type="json">
+				<param name="root">map</param>
+			</result>
+		</action>
+		
+		<action name="standard_*" class="standardAction" method="{1}" >
+			<result name="saveupdateSuccess">/WEB-INF/pages/base/standard.jsp</result>
+			<result name="deleteSuccess">/WEB-INF/pages/base/standard.jsp</result>
+			<result name="pageQuerySuccess" type="json">
+				<param name="root">returnPage</param>
+				<param name="includeProperties">
+					total,
+					rows\[\d+\]\.id,
+					rows\[\d+\]\.name,
+					rows\[\d+\]\.minweight,
+					rows\[\d+\]\.maxweight,
+					rows\[\d+\]\.updatetime,
+					rows\[\d+\]\.user\.username,
+					rows\[\d+\]\.user\.station
+				</param>
+			</result>
+		</action>
+	</package>
+	
+	<package name="noLogin" namespace="/" extends="struts-default">
+		<action name="login" class="loginAction">
+			<result type="redirect">/index.jsp</result>
+			<result name="input">/login.jsp</result>
+		</action>
+	</package>
+
+</struts>
