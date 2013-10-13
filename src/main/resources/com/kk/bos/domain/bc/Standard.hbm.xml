@@ -35,4 +35,7 @@
             <one-to-many class="com.kk.bos.domain.bc.Staff" />
         </set>
     </class>
+    <query name="listAll">
+    	<![CDATA[from Standard where deltag='0']]>
+    </query>
 </hibernate-mapping>

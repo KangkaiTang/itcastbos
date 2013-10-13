@@ -34,6 +34,7 @@
 		$("#minweight").numberbox("setValue", null);
 		$("#maxweight").numberbox("setValue", null);
 		$('#addStandardWindow').window("open");
+		$('#addStandardWindow').window("setTitle", "增加收派标准");
 	}
 
 	function doView() {
@@ -41,7 +42,12 @@
 	}
 
 	function doDelete() {
-		$("#tableForm").submit();
+		var deleteItem = $("#grid").datagrid('getSelections');
+		if(deleteItem.length == 0) {
+			$.messager.alert("Error","You should select the item you want to delete","warning");
+		}else {
+			$("#tableForm").submit();
+		}
 	}
 	//工具栏
 	var toolbar = [ {
@@ -150,6 +156,7 @@
 
 	function doDblClickRow(rowIndex, rowData) {
 		$('#addStandardWindow').window("open");
+		$('#addStandardWindow').window("setTitle", "修改收派标准");
 		$("#id").val(rowData.id);
 		$("#name").val(rowData.name);
 		$("#minweight").numberbox("setValue", rowData.minweight);

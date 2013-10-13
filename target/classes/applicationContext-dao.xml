@@ -24,5 +24,9 @@
 	<bean id="standardDao" class="com.kk.bos.dao.impl.GenericDaoImpl" parent="baseDao">
 		<constructor-arg index="0" type="java.lang.String" value="com.kk.bos.domain.bc.Standard"></constructor-arg>
 	</bean>
+	
+	<bean id="staffDao" class="com.kk.bos.dao.impl.GenericDaoImpl" parent="baseDao">
+		<constructor-arg index="0" type="java.lang.String" value="com.kk.bos.domain.bc.Staff"></constructor-arg>
+	</bean>
 </beans>
  

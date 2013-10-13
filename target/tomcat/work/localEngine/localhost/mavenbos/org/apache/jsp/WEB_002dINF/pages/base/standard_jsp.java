@@ -103,6 +103,7 @@ public final class standard_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\t\t$(\"#minweight\").numberbox(\"setValue\", null);\r\n");
       out.write("\t\t$(\"#maxweight\").numberbox(\"setValue\", null);\r\n");
       out.write("\t\t$('#addStandardWindow').window(\"open\");\r\n");
+      out.write("\t\t$('#addStandardWindow').window(\"setTitle\", \"增加收派标准\");\r\n");
       out.write("\t}\r\n");
       out.write("\r\n");
       out.write("\tfunction doView() {\r\n");
@@ -110,7 +111,12 @@ public final class standard_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\t}\r\n");
       out.write("\r\n");
       out.write("\tfunction doDelete() {\r\n");
-      out.write("\t\t$(\"#tableForm\").submit();\r\n");
+      out.write("\t\tvar deleteItem = $(\"#grid\").datagrid('getSelections');\r\n");
+      out.write("\t\tif(deleteItem.length == 0) {\r\n");
+      out.write("\t\t\t$.messager.alert(\"Error\",\"You should select the item you want to delete\",\"warning\");\r\n");
+      out.write("\t\t}else {\r\n");
+      out.write("\t\t\t$(\"#tableForm\").submit();\r\n");
+      out.write("\t\t}\r\n");
       out.write("\t}\r\n");
       out.write("\t//工具栏\r\n");
       out.write("\tvar toolbar = [ {\r\n");
@@ -221,6 +227,7 @@ public final class standard_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\r\n");
       out.write("\tfunction doDblClickRow(rowIndex, rowData) {\r\n");
       out.write("\t\t$('#addStandardWindow').window(\"open\");\r\n");
+      out.write("\t\t$('#addStandardWindow').window(\"setTitle\", \"修改收派标准\");\r\n");
       out.write("\t\t$(\"#id\").val(rowData.id);\r\n");
       out.write("\t\t$(\"#name\").val(rowData.name);\r\n");
       out.write("\t\t$(\"#minweight\").numberbox(\"setValue\", rowData.minweight);\r\n");

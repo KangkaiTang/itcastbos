@@ -1,9 +1,9 @@
 package com.kk.bos.web.action.impl.bc;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.apache.struts2.ServletActionContext;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 
@@ -48,18 +48,11 @@ public class StandardAction extends BaseAction implements ModelDriven<Standard> 
 	}
 
 	public String pageQuery() throws Exception {
-		//set in request attribute
-		Page myPage = new Page();
-		myPage.setPageNum(page);
-		myPage.setRowPerPage(rows);
-		
 		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Standard.class);
 		detachedCriteria.add(Restrictions.eq("deltag", "0"));
-		myPage.setDetachedCriteria(detachedCriteria);
-		
+		Page myPage = initPage(detachedCriteria);
 		Page returnPage = standardService.pageQuery(myPage);
 		ActionContext.getContext().put("returnPage", returnPage);
-		
 		return "pageQuerySuccess";
 	}
 	
@@ -70,6 +63,15 @@ public class StandardAction extends BaseAction implements ModelDriven<Standard> 
 		standardService.deleteBatch(ids);
 		
 		return "deleteSuccess";
+	}
+	
+	public String listAll() throws Exception {
+		
+		
+		List allStandards =  standardService.listAll();
+		ActionContext.getContext().put("allStandards", allStandards);
+		
+		return "listAllSuccess";
 	}
 
 }

@@ -105,6 +105,13 @@
 			<version>4.9</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- POI -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.9</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>

@@ -52,6 +52,32 @@
 					rows\[\d+\]\.user\.station
 				</param>
 			</result>
+			<result name="listAllSuccess" type="json">
+				<param name="root">allStandards</param>
+				<param name="includeProperties">
+					\[\d+\]\.id,
+					\[\d+\]\.name
+				</param>
+			</result>
+		</action>
+		
+		<action name="staff_*" class="staffAction" method="{1}">
+			<result name="saveOrUpdateSuccess">/WEB-INF/pages/base/staff.jsp</result>
+			<result name="listAllStaffSuccess" type="json">
+				<param name="root">returnPage</param>
+				<param name="includeProperties">
+					total,
+					rows\[\d+\]\.id,
+					rows\[\d+\]\.name,
+					rows\[\d+\]\.telephone,
+					rows\[\d+\]\.haspda,
+					rows\[\d+\]\.deltag,
+					rows\[\d+\]\.standard\.id,
+					rows\[\d+\]\.standard\.name,
+					rows\[\d+\]\.station
+				</param>
+			</result>
+			<result name="changeStatusBatchSuccess">/WEB-INF/pages/base/staff.jsp</result>
 		</action>
 	</package>
 	

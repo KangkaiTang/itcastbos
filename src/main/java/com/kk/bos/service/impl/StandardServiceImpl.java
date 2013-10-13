@@ -18,35 +18,23 @@ public class StandardServiceImpl extends BaseService implements IStandardService
 		
 	}
 
-	@Override
-	public Page pageQuery(Page myPage) {
-		/*
-		 *  set in response attribute
-		  	private List rows;
-			private int totalPage;
-		 */
-		
-		//1. totalPage
-		DetachedCriteria detachedCriteria = myPage.getDetachedCriteria();
-		detachedCriteria.setProjection(Projections.rowCount());
-		List lst = standardDao.findByCriteria(detachedCriteria);
-		myPage.setTotal((Long) lst.get(0));
-		//myPage.setTotal(20);
-		
-		//2. rows
-		detachedCriteria.setProjection(null);
-		int firstResult = (myPage.getPageNum() - 1) * myPage.getRowPerPage();
-		int maxResults = myPage.getRowPerPage();
-		List<Standard> rows = standardDao.pageQuery(detachedCriteria, firstResult, maxResults);
-		myPage.setRows(rows);
-		
-		return myPage;
-	}
 
 	@Override
 	public void deleteBatch(String[] ids) {
 		for(String id:ids) {
 			standardDao.findById(id).setDeltag("1");
 		}
+	}
+
+	@Override
+	public List listAll() {
+		return standardDao.findByNamedQuery("listAll");
+	}
+
+
+	@Override
+	public Page pageQuery(Page myPage) {
+		// TODO Auto-generated method stub
+		return pageQuery(myPage, standardDao);
 	}
 }

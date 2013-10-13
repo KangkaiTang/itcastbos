@@ -25,5 +25,9 @@
 	<bean id="standardAction" class="com.kk.bos.web.action.impl.bc.StandardAction" scope="prototype">
 		<property name="standardService" ref="standardService"></property>
 	</bean>
+	
+	<bean id="staffAction" class="com.kk.bos.web.action.impl.bc.StaffAction" scope="prototype">
+		<property name="staffService" ref="staffService"></property>
+	</bean>
 </beans>
  

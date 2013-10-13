@@ -35,4 +35,7 @@
             <one-to-many class="com.kk.bos.domain.bc.DecideZone" />
         </set>
     </class>
+    <query name="listAllStaff">
+    	<![CDATA[from Staff]]>
+    </query>
 </hibernate-mapping>

@@ -20,5 +20,9 @@
 	<bean id="standardService" class="com.kk.bos.service.impl.StandardServiceImpl">
 		<property name="standardDao" ref="standardDao"></property>
 	</bean>
+	
+	<bean id="staffService" class="com.kk.bos.service.impl.StaffServiceImpl">
+		<property name="staffDao" ref="staffDao"></property>
+	</bean>
 </beans>
  
