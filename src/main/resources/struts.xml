@@ -79,6 +79,57 @@
 			</result>
 			<result name="changeStatusBatchSuccess">/WEB-INF/pages/base/staff.jsp</result>
 		</action>
+		
+		<!-- region -->
+		<action name="region_*" class="regionAction" method="{1}">
+			<!-- 批量导入 -->
+			<result name="uploadXlsSuccess" type="json">
+				<param name="root">map</param>
+			</result>
+			<!-- 页面读取 -->
+			<result name="listRegionsSuccess" type="json">
+				<param name="root">returnPage</param>
+				<param name="includeProperties">
+					total,
+					rows\[\d+\]\.id,
+					rows\[\d+\]\.province,
+					rows\[\d+\]\.city,
+					rows\[\d+\]\.district,
+					rows\[\d+\]\.postcode,
+					rows\[\d+\]\.shortcode,
+					rows\[\d+\]\.citycode
+				</param>
+			</result>
+			<!-- ajax引用 -->
+			<result name="ajaxlistSuccess" type="json">
+				<param name="root">lst</param>
+				<param name="includeProperties">
+					\[\d+\]\.id,
+					\[\d+\]\.info
+				</param>
+			</result>
+		</action>
+		
+		<!-- subarea -->
+		<action name="subarea_*" class="subareaAction" method="{1}">
+			<result name="saveOrUpdateSuccess">/WEB-INF/pages/base/subarea.jsp</result>
+			<result name="listAllSuccess" type="json">
+				<param name="root">returnPage</param>
+				<param name="includeProperties">
+					total,
+					rows\[\d+\]\.id,
+					rows\[\d+\]\.addresskey,
+					rows\[\d+\]\.startnum,
+					rows\[\d+\]\.endnum,
+					rows\[\d+\]\.single,
+					rows\[\d+\]\.position,
+					rows\[\d+\]\.decideZone\.id,
+					rows\[\d+\]\.region\.province,
+					rows\[\d+\]\.region\.city,
+					rows\[\d+\]\.region\.district
+				</param>
+			</result>
+		</action>
 	</package>
 	
 	<package name="noLogin" namespace="/" extends="struts-default">

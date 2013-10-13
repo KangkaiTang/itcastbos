@@ -113,12 +113,10 @@ public class Region  implements java.io.Serializable {
         this.subareas = subareas;
     }
    
-
-
-
-
-
-
+		
+    public String getInfo() {
+    	return province+city+district;
+    }
 
 
 }

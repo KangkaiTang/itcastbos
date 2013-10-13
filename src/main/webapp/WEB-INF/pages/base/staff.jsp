@@ -154,7 +154,7 @@
 			border : false,
 			rownumbers : true,
 			striped : true,
-			pageList : [ 30, 50, 100 ],
+			pageList : [ 3, 5, 7 ],
 			pagination : true,
 			toolbar : toolbar,
 			url : "${pageContext.request.contextPath}/staff_listAllStaff",

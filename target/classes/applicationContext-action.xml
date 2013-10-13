@@ -29,5 +29,13 @@
 	<bean id="staffAction" class="com.kk.bos.web.action.impl.bc.StaffAction" scope="prototype">
 		<property name="staffService" ref="staffService"></property>
 	</bean>
+	
+	<bean id="regionAction" class="com.kk.bos.web.action.impl.bc.RegionAction" scope="prototype">
+		<property name="regionService" ref="regionService"></property>
+	</bean>
+	
+	<bean id="subareaAction" class="com.kk.bos.web.action.impl.bc.SubAreaAction" scope="prototype">
+		<property name="subareaService" ref="subareaService"></property>
+	</bean>
 </beans>
  

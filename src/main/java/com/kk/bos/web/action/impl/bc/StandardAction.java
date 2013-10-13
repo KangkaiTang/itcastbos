@@ -18,22 +18,10 @@ public class StandardAction extends BaseAction implements ModelDriven<Standard> 
 
 	private Standard standard = new Standard();
 
-	// page的属性注入
-	private int page;
-	private int rows;
-
 	@Override
 	public Standard getModel() {
 		// TODO Auto-generated method stub
 		return standard;
-	}
-
-	public void setPage(int page) {
-		this.page = page;
-	}
-
-	public void setRows(int rows) {
-		this.rows = rows;
 	}
 
 	public String saveupdate() throws Exception {

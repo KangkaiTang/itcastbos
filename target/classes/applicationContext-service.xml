@@ -24,5 +24,13 @@
 	<bean id="staffService" class="com.kk.bos.service.impl.StaffServiceImpl">
 		<property name="staffDao" ref="staffDao"></property>
 	</bean>
+	
+	<bean id="regionService" class="com.kk.bos.service.impl.RegionServiceImpl">
+		<property name="regionDao" ref="regionDao"></property>
+	</bean>
+	
+	<bean id="subareaService" class="com.kk.bos.service.impl.SubareaServiceImpl">
+		<property name="subareaDao" ref="subareaDao"></property>
+	</bean>
 </beans>
  

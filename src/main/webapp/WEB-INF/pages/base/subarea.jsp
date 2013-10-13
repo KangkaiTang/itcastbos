@@ -160,7 +160,7 @@
 			pageList: [30,50,100],
 			pagination : true,
 			toolbar : toolbar,
-			url : "json/subarea.json",
+			url : "${pageContext.request.contextPath}/subarea_listAll",
 			idField : 'id',
 			columns : columns,
 			onDblClickRow : doDblClickRow
@@ -196,6 +196,14 @@
 	function doDblClickRow(){
 		alert("双击表格数据...");
 	}
+	
+	function subareaSaveOrUpload() {
+		if($("#subareaSU").form('validate')) {
+			$("#subareaSU").submit();
+		} else {
+			$.messager.alert("Error","请输入必填项",'error');
+		}
+	}
 </script>	
 </head>
 <body class="easyui-layout" style="visibility:hidden;">
@@ -206,12 +214,12 @@
 	<div class="easyui-window" title="分区添加修改" id="addSubareaWindow" collapsible="false" minimizable="false" maximizable="false" style="top:20px;left:200px">
 		<div style="height:31px;overflow:hidden;" split="false" border="false" >
 			<div class="datagrid-toolbar">
-				<a id="save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true" >保存</a>
+				<a id="save" icon="icon-save" href="javascript:subareaSaveOrUpload()" class="easyui-linkbutton" plain="true" >保存</a>
 			</div>
 		</div>
 		
 		<div style="overflow:auto;padding:5px;" border="false">
-			<form>
+			<form id="subareaSU" action="${pageContext.request.contextPath }/subarea_saveOrUpdate" method="post">
 				<table class="table-edit" width="80%" align="center">
 					<tr class="title">
 						<td colspan="2">分区信息</td>
@@ -223,8 +231,9 @@
 					<tr>
 						<td>选择区域</td>
 						<td>
-							<input class="easyui-combobox" name="region.id"  
-    							data-options="valueField:'id',textField:'name',url:'json/standard.json'" />  
+							<input  class="easyui-combobox" name="region.id" 
+							data-options="valueField:'id',textField:'info',url:'${pageContext.request.contextPath}/region_ajaxlist'" />
+
 						</td>
 					</tr>
 					<tr>

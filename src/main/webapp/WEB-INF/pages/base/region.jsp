@@ -26,6 +26,9 @@
 <script
 	src="${pageContext.request.contextPath }/js/easyui/locale/easyui-lang-zh_CN.js"
 	type="text/javascript"></script>
+	
+<!-- 导入ocupload js -->
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/ocupload/jquery.ocupload-1.1.2.js"></script>
 <script type="text/javascript">
 	function doAdd(){
 		$('#addRegionWindow').window("open");
@@ -37,6 +40,18 @@
 	
 	function doDelete(){
 		alert("删除...");
+	}
+	
+	function doUpload(){
+		$("#button-upload").upload({
+		        name: 'regionBatch',
+		        action: '${pageContext.request.contextPath }/region_uploadXls',
+		        onComplete: function(response) {
+		        	var data = eval("("+ response +")");
+		        	$.messager.alert(data.result, data.msg, 'info');
+		        	$("#grid").datagrid('reload');
+		        }
+		});
 	}
 	
 	//工具栏
@@ -55,6 +70,11 @@
 		text : '删除',
 		iconCls : 'icon-cancel',
 		handler : doDelete
+	}, {
+		id : 'button-upload',
+		text : '批量上传',
+		iconCls : 'icon-save',
+		handler : doUpload
 	}];
 	// 定义列
 	var columns = [ [ {
@@ -103,10 +123,10 @@
 			border : false,
 			rownumbers : true,
 			striped : true,
-			pageList: [30,50,100],
+			pageList: [3,5,7],
 			pagination : true,
 			toolbar : toolbar,
-			url : "json/region.json",
+			url : "${pageContext.request.contextPath }/region_listRegions",
 			idField : 'id',
 			columns : columns,
 			onDblClickRow : doDblClickRow

@@ -23,9 +23,12 @@ public interface IGenericDao<T> {
 	
 	public List<T> findByCriteria(DetachedCriteria detachedCriteria);
 
+	//public List findByCriteria(DetachedCriteria detachedCriteria, int firstResult, int maxResults);
+	
 	public void saveOrUpdate(T obj);
 
 	public List<T> pageQuery(DetachedCriteria detachedCriteria,
 			int firstResult, int maxResults);
+
 	
 }

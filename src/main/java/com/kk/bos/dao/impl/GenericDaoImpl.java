@@ -70,4 +70,5 @@ public class GenericDaoImpl<T> extends HibernateDaoSupport implements IGenericDa
 		return this.getHibernateTemplate().findByCriteria(detachedCriteria, firstResult, maxResults);
 	}
 
+
 }
