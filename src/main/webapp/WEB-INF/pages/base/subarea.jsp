@@ -40,16 +40,40 @@
 	}
 	
 	function doSearch(){
+		$("#province").val("");
+		$("#city").val("");
+		$("#district").val("");
+		$("#decideZone").val("");
+		$("#addresskey").val("");
 		$('#searchWindow').window("open");
 	}
 	
 	function doExport(){
-		alert("导出");
+		location.href="${pageContext.request.contextPath}/subarea_exportXls";
 	}
 	
 	function doImport(){
 		alert("导入");
 	}
+	
+	//提供提交参数转为json格式的方法
+	
+	$.fn.paramToJson=function() {
+		var jsonObj={};
+		var array = this.serializeArray();
+		$(array).each(function() {
+			if(jsonObj[this.name]) {
+				if($.isArray(jsonObj[this.name])) {//如果value的值是数组
+					jsonObj[this.name].push(this.value);
+				} else {//如果value的 不值是数组
+					jsonObj[this.name] = [jsonObj[this.name], this.value];
+				}
+			} else {
+				jsonObj[this.name] = this.value; //如果数组不存在
+			}
+		});
+		return jsonObj;
+	};
 	
 	//工具栏
 	var toolbar = [ {
@@ -157,10 +181,10 @@
 			border : true,
 			rownumbers : true,
 			striped : true,
-			pageList: [30,50,100],
+			pageList: [1,3,5],
 			pagination : true,
 			toolbar : toolbar,
-			url : "${pageContext.request.contextPath}/subarea_listAll",
+			url : "${pageContext.request.contextPath}/subarea_conditionQuery",
 			idField : 'id',
 			columns : columns,
 			onDblClickRow : doDblClickRow
@@ -188,7 +212,11 @@
 	        resizable:false
 	    });
 		$("#btn").click(function(){
-			alert("执行查询...");
+			//关闭窗口
+			$("#searchWindow").window('close');
+			
+			var params = $("#subareaCQ").paramToJson();
+			$("#grid").datagrid('load', params);
 		});
 		
 	});
@@ -269,30 +297,30 @@
 	<!-- 查询分区 -->
 	<div class="easyui-window" title="查询分区窗口" id="searchWindow" collapsible="false" minimizable="false" maximizable="false" style="top:20px;left:200px">
 		<div style="overflow:auto;padding:5px;" border="false">
-			<form>
+			<form id="subareaCQ">
 				<table class="table-edit" width="80%" align="center">
 					<tr class="title">
 						<td colspan="2">查询条件</td>
 					</tr>
 					<tr>
 						<td>省</td>
-						<td><input type="text" name="province" class="easyui-validatebox" required="true"/></td>
+						<td><input type="text" id="province" name="region.province"/></td>
 					</tr>
 					<tr>
 						<td>市</td>
-						<td><input type="text" name="city" class="easyui-validatebox" required="true"/></td>
+						<td><input type="text" id="city" name="region.city" /></td>
 					</tr>
 					<tr>
 						<td>区（县）</td>
-						<td><input type="text" name="district" class="easyui-validatebox" required="true"/></td>
+						<td><input type="text" id="district" name="region.district" /></td>
 					</tr>
 					<tr>
 						<td>定区编码</td>
-						<td><input type="text" name="decidedzone.id" class="easyui-validatebox" required="true"/></td>
+						<td><input type="text" id="decideZone" name="decideZone.id"/></td>
 					</tr>
 					<tr>
 						<td>关键字</td>
-						<td><input type="text" name="addresskey" class="easyui-validatebox" required="true"/></td>
+						<td><input type="text" id="addressKey" name="addresskey"/></td>
 					</tr>
 					<tr>
 						<td colspan="2"><a id="btn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a> </td>
