@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="qp" extends="needLogin">
+		<!-- noticeBill -->
+		<action name="noticebill_*" class="noticeBillAction" method="{1}">
+			<result name="saveSuccess">/WEB-INF/pages/qupai/noticebill_add.jsp</result>
+		</action>
+		<!-- workOrderManage -->
+		<action name="workordermanage_*" class="workOrderManageAction"
+			method="{1}">
+			<result name="saveOrUpdateSuccess" type="json">
+				<param name="root">map</param>
+			</result>
+			<result name="pageQuerySuccess" type="json">
+				<param name="root">returnPage</param>
+				<param name="includeProperties">
+					total,
+					rows\[\d+\]\.id,
+					rows\[\d+\]\.arrivecity,
+					rows\[\d+\]\.product,
+					rows\[\d+\]\.num,
+					rows\[\d+\]\.weight,
+					rows\[\d+\]\.floadreqr
+
+				</param>
+			</result>
+		</action>
+	</package>
+</struts>
+

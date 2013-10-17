@@ -29,6 +29,15 @@
 <script type="text/javascript">
 	$(function(){
 		$("body").css({visibility:"visible"});
+		
+		$("#save").click(function() {
+			var validate = $("#noticebillSave").form('validate');
+			if(validate) {
+				$("#noticebillSave").submit();
+			}else {
+				$.messager.alert("Error","Please input all necessary material","error");
+			}
+		});
 	});
 </script>
 </head>
@@ -43,25 +52,25 @@
 		</div>
 	</div>
 	<div region="center" style="overflow:auto;padding:5px;" border="false">
-		<form>
+		<form id="noticebillSave" action="${pageContext.request.contextPath }/noticebill_save.action" method="post">
 			<table class="table-edit" width="95%" align="center">
 				<tr class="title">
 					<td colspan="4">客户信息</td>
 				</tr>
 				<tr>
 					<td>来电号码:</td>
-					<td><input type="text" class="easyui-validatebox"
+					<td><input name="telephone" type="text" class="easyui-validatebox"
 						required="true" /></td>
 					<td>客户编号:</td>
-					<td><input type="text" class="easyui-validatebox"
+					<td><input name="customerId" type="text" class="easyui-validatebox"
 						required="true" /></td>
 				</tr>
 				<tr>
 					<td>客户姓名:</td>
-					<td><input type="text" class="easyui-validatebox"
+					<td><input name="customerName" type="text" class="easyui-validatebox"
 						required="true" /></td>
 					<td>联系人:</td>
-					<td><input type="text" class="easyui-validatebox"
+					<td><input name="delegater" type="text" class="easyui-validatebox"
 						required="true" /></td>
 				</tr>
 				<tr class="title">
@@ -69,36 +78,36 @@
 				</tr>
 				<tr>
 					<td>品名:</td>
-					<td><input type="text" class="easyui-validatebox"
+					<td><input name="product" type="text" class="easyui-validatebox"
 						required="true" /></td>
 					<td>件数:</td>
-					<td><input type="text" class="easyui-numberbox"
+					<td><input name="num" type="text" class="easyui-numberbox"
 						required="true" /></td>
 				</tr>
 				<tr>
 					<td>重量:</td>
-					<td><input type="text" class="easyui-validatebox"
+					<td><input name="weight" type="text" class="easyui-validatebox"
 						required="true" /></td>
 					<td>体积:</td>
-					<td><input type="text" class="easyui-validatebox"
+					<td><input name="volume" type="text" class="easyui-validatebox"
 						required="true" /></td>
 				</tr>
 				<tr>
 					<td>取件地址</td>
-					<td colspan="3"><input type="text" class="easyui-validatebox"
+					<td colspan="3"><input name="pickaddress" type="text" class="easyui-validatebox"
 						required="true" size="144"/></td>
 				</tr>
 				<tr>
 					<td>到达城市:</td>
-					<td><input type="text" class="easyui-validatebox"
+					<td><input name="arrivecity" type="text" class="easyui-validatebox"
 						required="true" /></td>
 					<td>预约取件时间:</td>
-					<td><input type="text" class="easyui-datebox"
-						required="true" /></td>
+					<td><input name="pickdate" class="easyui-datebox"
+						 data-options="editable:false, required:true"/></td>
 				</tr>
 				<tr>
 					<td>备注:</td>
-					<td colspan="3"><textarea rows="5" cols="80" type="text" class="easyui-validatebox"
+					<td colspan="3"><textarea name="remark" rows="5" cols="80" type="text" class="easyui-validatebox"
 						required="true" ></textarea></td>
 				</tr>
 			</table>

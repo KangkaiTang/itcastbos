@@ -44,7 +44,31 @@
 	}
 	
 	function doAssociations(){
-		alert("关联客户");
+		var selected = $("#grid").datagrid('getSelected');
+		
+		if(selected != null) {
+			$("#noassociationSelect").html('');
+			$("#associationSelect").html('');
+			
+			$("#customerWindow").window('open');
+			$.post("${pageContext.request.contextPath }/decidezone_listUnascCustomer", function(data) {
+				$(data).each(function(){
+					var option = "<option value="+ this.id +">"+ this.name + "(" + this.address + ")"+"</option>";
+					$("#noassociationSelect").append(option);
+				});
+			});
+			
+			$.post("${pageContext.request.contextPath }/decidezone_listHsascCustomer", {'id' : selected.id}, function(data) {
+				$(data).each(function() {
+					var option = "<option value="+ this.id +">"+ this.name + "(" + this.address + ")"+"</option>";
+					$("#associationSelect").append(option);
+				});
+			});
+			
+			
+		} else {
+			$.messager.alert("Error","Please choose the zone you want to manipulate","error");
+		}
 	}
 	
 	//工具栏
@@ -122,13 +146,14 @@
 			border : true,
 			rownumbers : true,
 			striped : true,
-			pageList: [30,50,100],
+			pageList: [2,3,5],
 			pagination : true,
 			toolbar : toolbar,
-			url : "json/decidedzone.json",
+			url : "${pageContext.request.contextPath }/decidezone_pageQueryDecideZone",
 			idField : 'id',
 			columns : columns,
-			onDblClickRow : doDblClickRow
+			onDblClickRow : doDblClickRow,
+			singleSelect : true
 		});
 		
 		// 添加、修改定区
@@ -156,7 +181,34 @@
 			alert("执行查询...");
 		});
 		
+		//关联
+		
+		//左移和右移
+		$("#toRight").click(function() {
+			$("#associationSelect").append($("#noassociationSelect option:selected"));
+		});
+		
+		$("#toLeft").click(function() {
+			$("#noassociationSelect").append($("#associationSelect option:selected"));
+		});
+		
+		//关联
+		$("#associationBtn").click(function(){
+			$("#associationSelect option").attr("selected",true);
+			
+			$("#customerDecidedZoneId").val($("#grid").datagrid('getSelected').id);
+			$("#customerForm").submit();
+		});
 	});
+	
+	function saveOrUpdate(){
+		var validated = $("#decideZoneSU").form('validate');
+		if(validated) {
+			$("#decideZoneSU").submit();
+		} else{
+			$.messager.alert("Format Error", "Please input all the necessary field", "error");
+		}
+	}
 
 	function doDblClickRow(){
 		alert("双击表格数据...");
@@ -270,12 +322,12 @@
 	<div class="easyui-window" title="定区添加修改" id="addDecidedzoneWindow" collapsible="false" minimizable="false" maximizable="false" style="top:20px;left:200px">
 		<div style="height:31px;overflow:hidden;" split="false" border="false" >
 			<div class="datagrid-toolbar">
-				<a id="save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true" >保存</a>
+				<a id="save" icon="icon-save" href="javascript:saveOrUpdate()" class="easyui-linkbutton" plain="true" >保存</a>
 			</div>
 		</div>
 		
 		<div style="overflow:auto;padding:5px;" border="false">
-			<form>
+			<form id="decideZoneSU" action="${pageContext.request.contextPath }/decidezone_saveOrUpdate" method="post">
 				<table class="table-edit" width="80%" align="center">
 					<tr class="title">
 						<td colspan="2">定区信息</td>
@@ -291,17 +343,17 @@
 					<tr>
 						<td>选择负责人</td>
 						<td>
-							<input class="easyui-combobox" name="region.id"  
-    							data-options="valueField:'id',textField:'name',url:'json/standard.json'" />  
+							<input class="easyui-combobox" name="staff.id"  
+    							data-options="valueField:'id',textField:'name',url:'${pageContext.request.contextPath }/staff_ajaxlist.action'" />  
 						</td>
 					</tr>
 					<tr height="300">
 						<td valign="top">关联分区</td>
 						<td>
-							<table id="subareaGrid"  class="easyui-datagrid" border="false" style="width:300px;height:300px" data-options="url:'json/decidedzone_subarea.json',fitColumns:true,singleSelect:false">
+							<table id="subareaGrid"  class="easyui-datagrid" border="false" style="width:300px;height:300px" data-options="url:'${pageContext.request.contextPath }/subarea_ajaxnodzlist',fitColumns:true,singleSelect:false">
 								<thead>  
 							        <tr>  
-							            <th data-options="field:'id',width:30,checkbox:true">编号</th>  
+							            <th data-options="field:'subareaId',width:30,checkbox:true">编号</th>  
 							            <th data-options="field:'addresskey',width:150">关键字</th>  
 							            <th data-options="field:'position',width:200,align:'right'">位置</th>  
 							        </tr>  
@@ -335,6 +387,34 @@
 					</tr>
 					<tr>
 						<td colspan="2"><a id="btn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a> </td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+	<!-- 关联客户窗口 -->
+	<div class="easyui-window" title="关联客户窗口" id="customerWindow" collapsible="false" closed="true" minimizable="false" maximizable="false" style="top:20px;left:200px;width: 400px;height: 300px;">
+		<div style="overflow:auto;padding:5px;" border="false">
+			<form id="customerForm" action="${pageContext.request.contextPath }/decidezone_associate" method="post">
+				<table class="table-edit" width="80%" align="center">
+					<tr class="title">
+						<td colspan="3">关联客户</td>
+					</tr>
+					<tr>
+						<td>
+							<input type="hidden" name="id" id="customerDecidedZoneId" />
+							<select id="noassociationSelect" multiple="multiple" size="10"></select>
+						</td>
+						<td>
+							<input type="button" value="》》" id="toRight"><br/>
+							<input type="button" value="《《" id="toLeft">
+						</td>
+						<td>
+							<select id="associationSelect" name="customerIds" multiple="multiple" size="10"></select>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3"><a id="associationBtn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save'">关联客户</a> </td>
 					</tr>
 				</table>
 			</form>

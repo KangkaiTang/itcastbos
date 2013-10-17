@@ -32,5 +32,28 @@
 	<bean id="subareaService" class="com.kk.bos.service.impl.SubareaServiceImpl">
 		<property name="subareaDao" ref="subareaDao"></property>
 	</bean>
+	
+	<bean id="decideZoneService" class="com.kk.bos.service.impl.DecideZoneServiceImpl">
+		<property name="decideZoneDao" ref="decideZoneDao"></property>
+		<property name="subareaDao" ref="subareaDao"></property>
+	</bean>
+	
+	<!-- hessian service -->
+	<bean id="customerService" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl" value="http://localhost:8080/crm/CustomerService"></property>
+		<property name="serviceInterface" value="cn.itcast.crm.service.ICustomerService"></property>
+	</bean>
+	
+	<!-- 业务受理模块 -->
+	<bean id="noticeBillService" class="com.kk.bos.service.impl.NoticeBillServiceImpl">
+		<property name="noticeBillDao" ref="noticeBillDao"></property>
+		<property name="customerService" ref="customerService"></property>
+		<property name="decideZoneDao" ref="decideZoneDao"></property>
+		<property name="workBillDao" ref="workBillDao"></property>
+	</bean>
+	
+	<bean id="workOrderManageService" class="com.kk.bos.service.impl.WorkOrderManageServiceImpl">
+		<property name="workOrderManageDao" ref="workOrderManageDao"></property>
+	</bean>
 </beans>
  

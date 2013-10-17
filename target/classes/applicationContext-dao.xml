@@ -36,5 +36,22 @@
 	<bean id="subareaDao" class="com.kk.bos.dao.impl.GenericDaoImpl" parent="baseDao">
 		<constructor-arg index="0" type="java.lang.String" value="com.kk.bos.domain.bc.Subarea"></constructor-arg>
 	</bean>
+	
+	<bean id="decideZoneDao" class="com.kk.bos.dao.impl.GenericDaoImpl" parent="baseDao">
+		<constructor-arg index="0" type="java.lang.String" value="com.kk.bos.domain.bc.DecideZone"></constructor-arg>
+	</bean>
+	
+	<!-- 业务受理模块 -->
+	<bean id="noticeBillDao" class="com.kk.bos.dao.impl.GenericDaoImpl" parent="baseDao">
+		<constructor-arg index="0" type="java.lang.String" value="com.kk.bos.domain.qp.NoticeBill"></constructor-arg>
+	</bean>
+	
+	<bean id="workBillDao" class="com.kk.bos.dao.impl.GenericDaoImpl" parent="baseDao">
+		<constructor-arg index="0" type="java.lang.String" value="com.kk.bos.domain.qp.WorkBill"></constructor-arg>
+	</bean>
+	
+	<bean id="workOrderManageDao" class="com.kk.bos.dao.impl.GenericDaoImpl" parent="baseDao">
+		<constructor-arg index="0" type="java.lang.String" value="com.kk.bos.domain.qp.WorkOrderManage"></constructor-arg>
+	</bean>
 </beans>
  

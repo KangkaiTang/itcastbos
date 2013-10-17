@@ -74,6 +74,12 @@ public class SubAreaAction extends BaseAction implements ModelDriven<Subarea> {
 		return new ByteArrayInputStream(excelData);
 	}
 
+	public String ajaxnodzlist() throws Exception {
+		List<Subarea> subareas = subareaService.findAllnoDz();
+		ActionContext.getContext().put("subareas", subareas);
+		return "ajaxnodzlistSuccess";
+	}
+	
 	public String exportXls() throws Exception {
 		
 		String agent = ServletActionContext.getRequest().getHeader("user-agent");

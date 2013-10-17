@@ -9,19 +9,20 @@
 
 	<package name="needLogin" extends="json-default">
 		<interceptors>
-			<interceptor name="loginInterceptor" class="com.kk.bos.web.interceptor.LoginInterceptor" />
+			<interceptor name="loginInterceptor"
+				class="com.kk.bos.web.interceptor.LoginInterceptor" />
 			<interceptor-stack name="loginStack">
 				<interceptor-ref name="defaultStack"></interceptor-ref>
 				<interceptor-ref name="loginInterceptor"></interceptor-ref>
 			</interceptor-stack>
 		</interceptors>
-		
+
 		<default-interceptor-ref name="loginStack"></default-interceptor-ref>
-		
+
 		<global-results>
 			<result name="login">/login.jsp</result>
 		</global-results>
-		
+
 		<action name="index">
 			<result>/index.jsp</result>
 		</action>
@@ -29,118 +30,12 @@
 		<action name="page_*_*">
 			<result>/WEB-INF/pages/{1}/{2}.jsp</result>
 		</action>
-		
-		<action name="user_*" class="userAction" method="{1}">
-			<result name="editSuccess" type="json">
-				<param name="root">map</param>
-			</result>
-		</action>
-		
-		<action name="standard_*" class="standardAction" method="{1}" >
-			<result name="saveupdateSuccess">/WEB-INF/pages/base/standard.jsp</result>
-			<result name="deleteSuccess">/WEB-INF/pages/base/standard.jsp</result>
-			<result name="pageQuerySuccess" type="json">
-				<param name="root">returnPage</param>
-				<param name="includeProperties">
-					total,
-					rows\[\d+\]\.id,
-					rows\[\d+\]\.name,
-					rows\[\d+\]\.minweight,
-					rows\[\d+\]\.maxweight,
-					rows\[\d+\]\.updatetime,
-					rows\[\d+\]\.user\.username,
-					rows\[\d+\]\.user\.station
-				</param>
-			</result>
-			<result name="listAllSuccess" type="json">
-				<param name="root">allStandards</param>
-				<param name="includeProperties">
-					\[\d+\]\.id,
-					\[\d+\]\.name
-				</param>
-			</result>
-		</action>
-		
-		<action name="staff_*" class="staffAction" method="{1}">
-			<result name="saveOrUpdateSuccess">/WEB-INF/pages/base/staff.jsp</result>
-			<result name="listAllStaffSuccess" type="json">
-				<param name="root">returnPage</param>
-				<param name="includeProperties">
-					total,
-					rows\[\d+\]\.id,
-					rows\[\d+\]\.name,
-					rows\[\d+\]\.telephone,
-					rows\[\d+\]\.haspda,
-					rows\[\d+\]\.deltag,
-					rows\[\d+\]\.standard\.id,
-					rows\[\d+\]\.standard\.name,
-					rows\[\d+\]\.station
-				</param>
-			</result>
-			<result name="changeStatusBatchSuccess">/WEB-INF/pages/base/staff.jsp</result>
-		</action>
-		
-		<!-- region -->
-		<action name="region_*" class="regionAction" method="{1}">
-			<!-- 批量导入 -->
-			<result name="uploadXlsSuccess" type="json">
-				<param name="root">map</param>
-			</result>
-			<!-- 页面读取 -->
-			<result name="listRegionsSuccess" type="json">
-				<param name="root">returnPage</param>
-				<param name="includeProperties">
-					total,
-					rows\[\d+\]\.id,
-					rows\[\d+\]\.province,
-					rows\[\d+\]\.city,
-					rows\[\d+\]\.district,
-					rows\[\d+\]\.postcode,
-					rows\[\d+\]\.shortcode,
-					rows\[\d+\]\.citycode
-				</param>
-			</result>
-			<!-- ajax引用 -->
-			<result name="ajaxlistSuccess" type="json">
-				<param name="root">lst</param>
-				<param name="includeProperties">
-					\[\d+\]\.id,
-					\[\d+\]\.info
-				</param>
-			</result>
-		</action>
-		
-		<!-- subarea -->
-		<action name="subarea_*" class="subareaAction" method="{1}">
-			<result name="saveOrUpdateSuccess">/WEB-INF/pages/base/subarea.jsp</result>
-			<result name="conditionQuerySuccess" type="json">
-				<param name="root">returnPage</param>
-				<param name="includeProperties">
-					total,
-					rows\[\d+\]\.id,
-					rows\[\d+\]\.addresskey,
-					rows\[\d+\]\.startnum,
-					rows\[\d+\]\.endnum,
-					rows\[\d+\]\.single,
-					rows\[\d+\]\.position,
-					rows\[\d+\]\.decideZone\.id,
-					rows\[\d+\]\.region\.province,
-					rows\[\d+\]\.region\.city,
-					rows\[\d+\]\.region\.district
-				</param>
-			</result>
-			<result name="exportXlsSuccess" type="stream">
-				<param name="contentType">application/vnd.ms-excel</param>
-				<param name="contentDisposition">attachment;filename=${downloadFileName}</param>
-			</result>
-		</action>
-	</package>
 	
-	<package name="noLogin" namespace="/" extends="struts-default">
-		<action name="login" class="loginAction">
-			<result type="redirect">/index.jsp</result>
-			<result name="input">/login.jsp</result>
-		</action>
 	</package>
+	<include file="struts-bc.xml"></include>
+	<include file="struts-qp.xml"></include>
+	<include file="struts-user.xml"></include>
+
+
 
 </struts>

@@ -110,13 +110,9 @@ public class Subarea  implements java.io.Serializable {
     public void setPosition(String position) {
         this.position = position;
     }
+    
+    public String getSubareaId() {
+    	return this.id;
+    }
    
-
-
-
-
-
-
-
-
 }

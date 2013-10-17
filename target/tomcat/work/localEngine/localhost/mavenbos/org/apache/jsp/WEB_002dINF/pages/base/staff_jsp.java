@@ -227,7 +227,7 @@ public final class staff_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\t\t\tborder : false,\r\n");
       out.write("\t\t\trownumbers : true,\r\n");
       out.write("\t\t\tstriped : true,\r\n");
-      out.write("\t\t\tpageList : [ 30, 50, 100 ],\r\n");
+      out.write("\t\t\tpageList : [ 3, 5, 7 ],\r\n");
       out.write("\t\t\tpagination : true,\r\n");
       out.write("\t\t\ttoolbar : toolbar,\r\n");
       out.write("\t\t\turl : \"");

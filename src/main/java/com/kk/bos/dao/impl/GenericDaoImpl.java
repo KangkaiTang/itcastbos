@@ -3,10 +3,18 @@ package com.kk.bos.dao.impl;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.WildcardQuery;
+import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.search.FullTextQuery;
+import org.hibernate.search.FullTextSession;
+import org.hibernate.search.impl.FullTextSessionImpl;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.kk.bos.dao.IGenericDao;
+import com.kk.bos.domain.Page;
 
 public class GenericDaoImpl<T> extends HibernateDaoSupport implements IGenericDao<T>{
 
@@ -68,6 +76,30 @@ public class GenericDaoImpl<T> extends HibernateDaoSupport implements IGenericDa
 	public List<T> pageQuery(DetachedCriteria detachedCriteria,
 			int firstResult, int maxResults) {
 		return this.getHibernateTemplate().findByCriteria(detachedCriteria, firstResult, maxResults);
+	}
+	
+	
+	public Page queryByLucene(String conditionName, String conditionValue, Page page) {
+		//1.session
+		Session session = this.getSession();
+		//2. 全文检索session
+		FullTextSession fullTextSession = new FullTextSessionImpl(session);
+		//3. lucene query对象
+		Query query = new WildcardQuery(new Term(conditionName, "*" + conditionValue + "*"));
+		//4. 全文检索Query
+		FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(query);
+		
+		//total
+		page.setTotal(fullTextQuery.getResultSize());
+		
+		//rows
+		int firstResult = (page.getPageNum() -1) * page.getRowPerPage();
+		int maxResults = page.getRowPerPage();
+		
+		List rows = fullTextQuery.setFirstResult(firstResult).setMaxResults(maxResults).list();
+		page.setRows(rows);
+		
+		return page;
 	}
 
 

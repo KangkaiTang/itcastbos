@@ -2,6 +2,7 @@ package com.kk.bos.web.action.impl.bc;
 
 import java.util.List;
 
+import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
 
 import com.kk.bos.domain.Page;
@@ -53,6 +54,14 @@ public class StaffAction extends BaseAction implements ModelDriven<Staff> {
 		staffService.changeStatusBatch(staffIds, "0");
 		
 		return "changeStatusBatchSuccess";
+	}
+	
+	public String ajaxlist() throws Exception {
+		
+		List<Staff> staffs = staffService.findAllStaffs();
+		ServletActionContext.getContext().put("staffs", staffs);
+		
+		return "ajaxlistSuccess";
 	}
 	
 }

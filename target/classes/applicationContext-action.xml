@@ -37,5 +37,20 @@
 	<bean id="subareaAction" class="com.kk.bos.web.action.impl.bc.SubAreaAction" scope="prototype">
 		<property name="subareaService" ref="subareaService"></property>
 	</bean>
+	
+	<bean id="decideZoneAction" class="com.kk.bos.web.action.impl.bc.DecideZoneAction" scope="prototype">
+		<property name="decideZoneService" ref="decideZoneService"></property>
+		<property name="customerService" ref="customerService"></property>
+	</bean>
+	
+	<!-- 业务受理 -->
+	<bean id="noticeBillAction" class="com.kk.bos.web.action.impl.qp.NoticeBillAction" scope="prototype">
+		<property name="noticeBillSerivce" ref="noticeBillService"></property>
+	</bean>
+
+	<bean id="workOrderManageAction" class="com.kk.bos.web.action.impl.qp.WorkOrderManageAction" scope="prototype">
+		<property name="workOrderManageService" ref="workOrderManageService"></property>
+	</bean>
+
 </beans>
  

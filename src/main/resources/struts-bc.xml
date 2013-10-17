@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="bc" extends="needLogin">
+		<action name="standard_*" class="standardAction" method="{1}">
+			<result name="saveupdateSuccess">/WEB-INF/pages/base/standard.jsp</result>
+			<result name="deleteSuccess">/WEB-INF/pages/base/standard.jsp</result>
+			<result name="pageQuerySuccess" type="json">
+				<param name="root">returnPage</param>
+				<param name="includeProperties">
+					total,
+					rows\[\d+\]\.id,
+					rows\[\d+\]\.name,
+					rows\[\d+\]\.minweight,
+					rows\[\d+\]\.maxweight,
+					rows\[\d+\]\.updatetime,
+					rows\[\d+\]\.user\.username,
+					rows\[\d+\]\.user\.station
+				</param>
+			</result>
+			<result name="listAllSuccess" type="json">
+				<param name="root">allStandards</param>
+				<param name="includeProperties">
+					\[\d+\]\.id,
+					\[\d+\]\.name
+				</param>
+			</result>
+		</action>
+
+		<!-- staff -->
+		<action name="staff_*" class="staffAction" method="{1}">
+			<result name="saveOrUpdateSuccess">/WEB-INF/pages/base/staff.jsp</result>
+			<result name="listAllStaffSuccess" type="json">
+				<param name="root">returnPage</param>
+				<param name="includeProperties">
+					total,
+					rows\[\d+\]\.id,
+					rows\[\d+\]\.name,
+					rows\[\d+\]\.telephone,
+					rows\[\d+\]\.haspda,
+					rows\[\d+\]\.deltag,
+					rows\[\d+\]\.standard\.id,
+					rows\[\d+\]\.standard\.name,
+					rows\[\d+\]\.station
+				</param>
+			</result>
+			<result name="changeStatusBatchSuccess">/WEB-INF/pages/base/staff.jsp</result>
+			<result name="ajaxlistSuccess" type="json">
+				<param name="root">staffs</param>
+				<param name="includeProperties">
+					\[\d+\]\.id,
+					\[\d+\]\.name
+				</param>
+			</result>
+		</action>
+
+		<!-- region -->
+		<action name="region_*" class="regionAction" method="{1}">
+			<!-- 批量导入 -->
+			<result name="uploadXlsSuccess" type="json">
+				<param name="root">map</param>
+			</result>
+			<!-- 页面读取 -->
+			<result name="listRegionsSuccess" type="json">
+				<param name="root">returnPage</param>
+				<param name="includeProperties">
+					total,
+					rows\[\d+\]\.id,
+					rows\[\d+\]\.province,
+					rows\[\d+\]\.city,
+					rows\[\d+\]\.district,
+					rows\[\d+\]\.postcode,
+					rows\[\d+\]\.shortcode,
+					rows\[\d+\]\.citycode
+				</param>
+			</result>
+			<!-- ajax引用 -->
+			<result name="ajaxlistSuccess" type="json">
+				<param name="root">lst</param>
+				<param name="includeProperties">
+					\[\d+\]\.id,
+					\[\d+\]\.info
+				</param>
+			</result>
+		</action>
+
+		<!-- subarea -->
+		<action name="subarea_*" class="subareaAction" method="{1}">
+			<result name="saveOrUpdateSuccess">/WEB-INF/pages/base/subarea.jsp</result>
+			<result name="conditionQuerySuccess" type="json">
+				<param name="root">returnPage</param>
+				<param name="includeProperties">
+					total,
+					rows\[\d+\]\.id,
+					rows\[\d+\]\.addresskey,
+					rows\[\d+\]\.startnum,
+					rows\[\d+\]\.endnum,
+					rows\[\d+\]\.single,
+					rows\[\d+\]\.position,
+					rows\[\d+\]\.decideZone\.id,
+					rows\[\d+\]\.region\.province,
+					rows\[\d+\]\.region\.city,
+					rows\[\d+\]\.region\.district
+				</param>
+			</result>
+			<result name="exportXlsSuccess" type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+				<param name="contentDisposition">attachment;filename=${downloadFileName}</param>
+			</result>
+			<result name="ajaxnodzlistSuccess" type="json">
+				<param name="root">subareas</param>
+				<param name="includeProperties">
+					\[\d+\]\.subareaId,
+					\[\d+\]\.addresskey,
+					\[\d+\]\.position
+				</param>
+			</result>
+		</action>
+		<!-- decideZone -->
+		<action name="decidezone_*" class="decideZoneAction" method="{1}">
+			<result name="saveOrUpdateSuccess">/WEB-INF/pages/base/decidedzone.jsp</result>
+			<result name="pageQueryDecideZoneSuccess" type="json">
+				<param name="root">returnPage</param>
+				<param name="includeProperties">
+					total,
+					rows\[\d+\]\.id,
+					rows\[\d+\]\.name,
+					rows\[\d+\]\.staff\.name,
+					rows\[\d+\]\.staff\.telephone,
+					rows\[\d+\]\.staff\.station
+				</param>
+			</result>
+			<!-- hessian -->
+			<result name="listUnascCustomerSuccess" type="json">
+				<param name="root">customers</param>
+			</result>
+			<result name="listHsascCustomerSuccess" type="json">
+				<param name="root">customers</param>
+			</result>
+			<result name="associateSuccess">/WEB-INF/pages/base/decidedzone.jsp</result>
+		</action>
+	</package>
+
+
+</struts>
+

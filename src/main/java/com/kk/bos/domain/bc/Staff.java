@@ -15,7 +15,7 @@ public class Staff implements java.io.Serializable {
 	private Standard standard;
 	private String name;
 	private String telephone;
-	private String haspda;
+	private String haspda = "0";
 	private String deltag = "0";
 	private String station;
 	private Set decideZones = new HashSet(0);

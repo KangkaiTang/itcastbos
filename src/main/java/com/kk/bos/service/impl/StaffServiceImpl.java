@@ -1,5 +1,7 @@
 package com.kk.bos.service.impl;
 
+import java.util.List;
+
 import com.kk.bos.domain.Page;
 import com.kk.bos.domain.bc.Staff;
 import com.kk.bos.service.BaseService;
@@ -22,5 +24,10 @@ public class StaffServiceImpl extends BaseService implements IStaffService {
 		for(String staffId : staffIds) {
 			staffDao.findById(staffId).setDeltag(status);
 		}
+	}
+
+	@Override
+	public List<Staff> findAllStaffs() {
+		return staffDao.findByNamedQuery("Staff.listAllStaff");
 	}
 }

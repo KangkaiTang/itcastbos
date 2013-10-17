@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
 
+import com.kk.bos.domain.Page;
 import com.kk.bos.domain.bc.Standard;
 
 public interface IGenericDao<T> {
@@ -29,6 +30,8 @@ public interface IGenericDao<T> {
 
 	public List<T> pageQuery(DetachedCriteria detachedCriteria,
 			int firstResult, int maxResults);
+	
+	public Page queryByLucene(String conditionName, String conditionValue, Page page);
 
 	
 }

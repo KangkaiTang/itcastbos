@@ -56,6 +56,10 @@
 		}
 	}
 	
+	function doRefresh() {
+		$("#grid").datagrid('load');
+	}
+	
 	//工具栏
 	var toolbar = [ {
 		id : 'button-add',	
@@ -72,6 +76,11 @@
 		text : '保存',
 		iconCls : 'icon-save',
 		handler : doSave
+	}, {
+		id : 'button-refresh',
+		text : '刷新',
+		iconCls : 'icon-edit',
+		handler : doRefresh
 	}];
 	// 定义列
 	var columns = [ [ {
@@ -153,29 +162,43 @@
 			border : true,
 			rownumbers : true,
 			striped : true,
-			pageList: [30,50,100],
+			pageList: [3,5,7],
 			pagination : true,
 			toolbar : toolbar,
-			url :  "",
+			url :  "${pageContext.request.contextPath}/workordermanage_pageQuery.action",
 			idField : 'id',
 			columns : columns,
 			onDblClickRow : doDblClickRow,
 			onAfterEdit : function(rowIndex, rowData, changes){
-				console.info(rowData);
 				editIndex = undefined;
+				$.post("${pageContext.request.contextPath}/workordermanage_saveOrUpdate", rowData, function(data){
+					$.messager.alert(data.result, data.msg, "info");
+				});
 			}
 		});
 	});
 
 	function doDblClickRow(rowIndex, rowData){
-		alert("双击表格数据...");
-		console.info(rowIndex);
 		$('#grid').datagrid('beginEdit',rowIndex);
 		editIndex = rowIndex;
+	}
+	
+	function doSearch(value, name) {
+		$("#grid").datagrid('load', {
+			conditionName:name,
+			conditionValue:value
+		});
 	}
 </script>
 </head>
 <body class="easyui-layout" style="visibility:hidden;">
+	<div region="north">
+		<input id="ss" class="easyui-searchbox" style="width:300px" data-options="searcher:doSearch,prompt:'Please Input Value',menu:'#mm'"></input> 
+		<div id="mm">
+			<div data-options="name:'arrivecity'">按照到达地搜索</div>
+			<div data-options="name:'product'">按照货物名称搜索</div>
+		</div>
+	</div>
 	<div region="center" border="false">
     	<table id="grid"></table>
 	</div>

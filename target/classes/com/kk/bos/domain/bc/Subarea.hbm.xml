@@ -32,4 +32,7 @@
             <column name="position" />
         </property>
     </class>
+    <query name="Subarea.listnodz">
+    	<![CDATA[from Subarea where decideZone is null]]>
+    </query>
 </hibernate-mapping>

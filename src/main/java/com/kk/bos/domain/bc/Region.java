@@ -117,6 +117,6 @@ public class Region  implements java.io.Serializable {
     public String getInfo() {
     	return province+city+district;
     }
-
+    
 
 }
